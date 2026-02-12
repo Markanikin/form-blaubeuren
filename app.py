@@ -1,21 +1,14 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
-import json
-import os
-from datetime import datetime
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
+import json, os, datetime
 from dotenv import load_dotenv
 
-# Загружаем переменные окружения
 load_dotenv()
-
 app = Flask(__name__, static_folder='static')
-app.secret_key = os.getenv('SECRET_KEY', 'default-secret-key')
+CORS(app)
+app.secret_key = os.getenv('SECRET_KEY', 'dev-key')
 
-# Папка для данных
-DATA_DIR = 'data'
-DATA_FILE = os.path.join(DATA_DIR, 'registrations.json')
-
-# Создаём папку при запуске
-os.makedirs(DATA_DIR, exist_ok=True)
+DATA_FILE = 'data.json'
 if not os.path.exists(DATA_FILE):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump([], f, ensure_ascii=False, indent=2)
@@ -44,13 +37,13 @@ def register():
             return jsonify({'error': 'Alle Pflichtfelder ausfüllen!'}), 400
         
         registration = {
-            'id': datetime.now().strftime('%Y%m%d%H%M%S%f'),
+            'id': datetime.datetime.now().strftime('%Y%m%d%H%M%S%f'),
             'name': data['name'].strip(),
             'email': data['email'].strip(),
             'phone': data['phone'].strip(),
             'participants': int(data['participants']),
             'comments': data.get('comments', '').strip(),
-            'timestamp': datetime.now().isoformat()
+            'timestamp': datetime.datetime.now().isoformat()
         }
         
         regs = load_data()
@@ -109,7 +102,5 @@ def export_data():
     return jsonify(regs)
 
 if __name__ == '__main__':
-    print("🚀 Server startet auf http://localhost:5000")
-    print(f"👤 Admin: {os.getenv('ADMIN_USERNAME')}")
-    print(f"🔒 Passwort: {os.getenv('ADMIN_PASSWORD')}")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
