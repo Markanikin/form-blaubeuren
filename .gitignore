@@ -1,0 +1,23 @@
+# Конфиденциальные данные
+.env
+*.env
+data.json
+data/
+*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+pyvenv.cfg
+
+# ОС
+.DS_Store
+Thumbs.db
+*.swp
+*~
