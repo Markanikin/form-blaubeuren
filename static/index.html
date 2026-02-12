@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veranstaltungsanmeldung - Blaubeuren</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e3a8a;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
+            overflow: hidden;
+            border: 3px solid #1e3a8a;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4em;
+            font-weight: bold;
+            color: #1e3a8a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1e3a8a;
+        }
+
+        .btn {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .admin-btn {
+            background: transparent;
+            color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+            width: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .admin-btn:hover {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .admin-panel {
+            display: none;
+            padding: 30px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: #dbeafe;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .stat-label {
+            color: #475569;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            width: auto;
+            padding: 8px 20px;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .participant {
+            background: #f8fafc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #1e3a8a;
+        }
+
+        .participant-header {
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .export-btn {
+            background: #0ea5e9;
+            width: auto;
+            padding: 8px 20px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .export-btn:hover {
+            background: #0284c7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f1f5f9;
+            border-top: 2px solid #cbd5e1;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">B</div>
+            <h1>Veranstaltungsanmeldung</h1>
+            <p class="subtitle">Rathaus Blaubeuren</p>
+        </header>
+
+        <div class="form-container" id="registrationForm">
+            <div class="success" id="successMessage">
+                Vielen Dank für Ihre Anmeldung! Wir freuen uns auf Sie.
+            </div>
+            <div class="error" id="errorMessage"></div>
+
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="name">Vollständiger Name *</label>
+                    <input type="text" id="name" required placeholder="Max Mustermann">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-Mail-Adresse *</label>
+                    <input type="email" id="email" required placeholder="max@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefonnummer *</label>
+                    <input type="tel" id="phone" required placeholder="+49 123 456789">
+                </div>
+
+                <div class="form-group">
+                    <label for="participants">Anzahl der Teilnehmer *</label>
+                    <select id="participants" required>
+                        <option value="">Bitte auswählen</option>
+                        <option value="1">1 Person</option>
+                        <option value="2">2 Personen</option>
+                        <option value="3">3 Personen</option>
+                        <option value="4">4 Personen</option>
+                        <option value="5">5 Personen</option>
+                        <option value="6">6 Personen</option>
+                        <option value="7">7 Personen</option>
+                        <option value="8">8 Personen</option>
+                        <option value="9">9 Personen</option>
+                        <option value="10">10 Personen</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Bemerkungen (optional)</label>
+                    <textarea id="comments" rows="3" placeholder="Allergien, besondere Wünsche, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Jetzt anmelden</button>
+            </form>
+        </div>
+
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h2>📋 Admin-Bereich</h2>
+                <button class="btn logout-btn" id="logoutBtn">Abmelden</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalParticipants">0</div>
+                    <div class="stat-label">Gesamtteilnehmer</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="registeredCount">0</div>
+                    <div class="stat-label">Anmeldungen</div>
+                </div>
+            </div>
+
+            <div id="registeredList"></div>
+
+            <button class="btn export-btn" id="exportBtn">📥 Als JSON herunterladen</button>
+        </div>
+
+        <div style="text-align: center; padding: 20px; background: #f1f5f9; border-top: 2px solid #cbd5e1;">
+            <button class="btn admin-btn" id="adminLoginBtn">🔑 Als Admin anmelden</button>
+        </div>
+
+        <footer>
+            <p>© 2026 Stadt Blaubeuren • Veranstaltungsanmeldung</p>
+        </footer>
+    </div>
+
+    <script>
+        // БАЗОВЫЙ АДРЕС ТВОЕГО СЕРВЕРА
+        const API_BASE = 'http://localhost:5000/api';
+
+        // DOM элементы
+        const eventForm = document.getElementById('eventForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminPanel = document.getElementById('adminPanel');
+        const registrationForm = document.getElementById('registrationForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const registeredList = document.getElementById('registeredList');
+        const totalParticipants = document.getElementById('totalParticipants');
+        const registeredCount = document.getElementById('registeredCount');
+
+        // Регистрация — отправка НА СЕРВЕР
+        eventForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const participants = parseInt(document.getElementById('participants').value);
+            const comments = document.getElementById('comments').value.trim();
+
+            try {
+                const response = await fetch(`${API_BASE}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name, email, phone, participants, comments
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    eventForm.reset();
+
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+
+                    // Обновляем админ-панель если открыта
+                    if (adminPanel.style.display === 'block') {
+                        loadRegistrations();
+                    }
+                } else {
+                    showError(data.error || 'Fehler beim Speichern');
+                }
+            } catch (error) {
+                showError('Verbindungsfehler. Ist der Server gestartet?');
+            }
+        });
+
+        // Вход админа
+        adminLoginBtn.addEventListener('click', async function () {
+            const username = prompt('Benutzername:');
+            const password = prompt('Passwort:');
+
+            if (!username || !password) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Сохраняем креды для последующих запросов
+                    localStorage.setItem('adminAuth', `${username}:${password}`);
+
+                    registrationForm.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    adminLoginBtn.style.display = 'none';
+
+                    loadRegistrations();
+                } else {
+                    alert('❌ Falsche Anmeldeinformationen!');
+                }
+            } catch (error) {
+                alert('Verbindungsfehler zum Server');
+            }
+        });
+
+        // Выход админа
+        logoutBtn.addEventListener('click', function () {
+            localStorage.removeItem('adminAuth');
+            adminPanel.style.display = 'none';
+            registrationForm.style.display = 'block';
+            adminLoginBtn.style.display = 'block';
+        });
+
+        // Экспорт данных
+        exportBtn.addEventListener('click', async function () {
+            const auth = localStorage.getItem('adminAuth');
+            if (!auth) return;
+
+            try {
+                const [username, password] = auth.split(':');
+                const response = await fetch(`${API_BASE}/admin/export`, {
+                    headers: { 'Authorization': `${username}:${password}` }
+                });
+
+                if (!response.ok) {
+                    alert('Nicht autorisiert');
+                    return;
+                }
+
+                const data = await response.json();
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+                const exportFileDefaultName = 'blaubeuren-registrations-' + new Date().toISOString().slice(0, 10) + '.json';
+
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+
+                alert('✅ Daten erfolgreich exportiert!');
+            } catch (error) {
+                alert('Fehler beim Exportieren');
+            }
+        });
+
+        // Загрузка регистраций для админа
+        async function loadRegistrations() {
+            const auth = localStorage.getItem('adminAuth');
+            if (!auth) return;
+
+            try {
+                const [username, password] = auth.split(':');
+                const response = await fetch(`${API_BASE}/admin/registrations`, {
+                    headers: { 'Authorization': `${username}:${password}` }
+                });
+
+                if (!response.ok) {
+                    alert('Sitzung abgelaufen. Bitte melden Sie sich erneut an.');
+                    localStorage.removeItem('adminAuth');
+                    adminPanel.style.display = 'none';
+                    registrationForm.style.display = 'block';
+                    adminLoginBtn.style.display = 'block';
+                    return;
+                }
+
+                const data = await response.json();
+                displayRegistrations(data.registrations, data.stats);
+            } catch (error) {
+                alert('Fehler beim Laden der Daten');
+            }
+        }
+
+        // Отображение регистраций
+        function displayRegistrations(registrations, stats) {
+            if (registrations.length === 0) {
+                registeredList.innerHTML = '<p>📭 Keine Anmeldungen vorhanden.</p>';
+                totalParticipants.textContent = '0';
+                registeredCount.textContent = '0';
+                return;
+            }
+
+            let html = '';
+
+            // Сортируем новые сверху
+            const sortedRegs = [...registrations].sort((a, b) =>
+                new Date(b.timestamp) - new Date(a.timestamp)
+            );
+
+            sortedRegs.forEach(reg => {
+                const date = new Date(reg.timestamp);
+                const formattedDate = date.toLocaleDateString('de-DE') + ' ' +
+                    date.toLocaleTimeString('de-DE');
+
+                html += `
+          <div class="participant">
+            <div class="participant-header">👤 ${reg.name}</div>
+            <div>📧 ${reg.email}</div>
+            <div>📱 ${reg.phone}</div>
+            <div>👥 Teilnehmer: ${reg.participants}</div>
+            ${reg.comments ? `<div>💬 ${reg.comments}</div>` : ''}
+            <div style="color: #999; font-size: 0.9em; margin-top: 5px;">
+              📅 ${formattedDate}
+            </div>
+          </div>
+        `;
+            });
+
+            registeredList.innerHTML = html;
+            totalParticipants.textContent = stats.total_participants;
+            registeredCount.textContent = stats.total_registrations;
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Инициализация: если есть сохранённая админ-сессия — показываем панель
+        if (localStorage.getItem('adminAuth')) {
+            registrationForm.style.display = 'none';
+            adminPanel.style.display = 'block';
+            adminLoginBtn.style.display = 'none';
+            loadRegistrations();
+        }
+    </script>
+</body>
+
+</html>
